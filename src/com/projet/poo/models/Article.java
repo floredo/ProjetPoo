@@ -10,5 +10,15 @@ package com.projet.poo.models;
  * @author Toussain bankafe
  */
 public class Article {
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     
 }
