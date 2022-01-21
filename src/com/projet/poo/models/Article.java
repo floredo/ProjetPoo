@@ -12,12 +12,16 @@ import java.util.Date;
  * @author Toussain bankafe
  */
 public class Article {
+    private int id;
     private String code;
     private String libelle;
     private double prix;
     private int qte;
     private Date date_creation;
 
+    public int getId(){
+        return id;
+    }
     public String getCode() {
         return code;
     }
@@ -32,6 +36,9 @@ public class Article {
     }
     public Date getDate_creation(){
         return date_creation;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setCode(String code) {
