@@ -5,6 +5,8 @@
  */
 package com.projet.poo;
 
+import dao.DatabaseConnexion;
+
 /**
  *
  * @author Toussain bankafe
@@ -15,7 +17,7 @@ public class Projet_Poo {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        DatabaseConnexion.getConnection();
     }
     
 }
