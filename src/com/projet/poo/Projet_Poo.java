@@ -5,7 +5,9 @@
  */
 package com.projet.poo;
 
-import dao.DatabaseConnexion;
+import com.projet.poo.models.Article;
+import dao.ArticleDAO;
+import java.util.Date;
 
 /**
  *
@@ -17,7 +19,17 @@ public class Projet_Poo {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        DatabaseConnexion.getConnection();
+        ArticleDAO dao = new ArticleDAO();
+        System.out.println("Nombre d'articles dans la base:"+dao.getAll().size());
+        Article article = new Article();
+        article.setCode("APPLE");
+        article.setLibelle("Macbook Pro");
+        article.setDateCreation(new Date());
+        article.setQte(10);
+        article.setPrix(100000);
+        dao.saveOne(article);
+        System.out.println("Nombre d'articles dans la base:"+dao.getAll().size());
+        
     }
     
 }

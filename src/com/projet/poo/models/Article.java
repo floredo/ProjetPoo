@@ -17,7 +17,7 @@ public class Article {
     private String libelle;
     private double prix;
     private int qte;
-    private Date date_creation;
+    private Date dateCreation;
 
     public int getId(){
         return id;
@@ -34,9 +34,7 @@ public class Article {
     public int getQte(){
         return qte;
     }
-    public Date getDate_creation(){
-        return date_creation;
-    }
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -53,16 +51,27 @@ public class Article {
     public void setQte(int qte) {
         this.qte = qte;
     }
-    public void setDate_creation(Date Date_creation) {
-        this.date_creation = date_creation;
+
+    public Date getDateCreation() {
+        return dateCreation;
     }
 
-    public Article(String code, String libelle, double prix, int qte, Date date_creation) {
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+    
+    
+
+    public Article() {
+    }
+
+    
+    public Article(String code, String libelle, double prix, int qte, Date dateCreation) {
         this.code = code;
         this.libelle = libelle;
         this.prix = prix;
         this.qte = qte;
-        this.date_creation = date_creation;
+        this.dateCreation = dateCreation;
     }
     
 }

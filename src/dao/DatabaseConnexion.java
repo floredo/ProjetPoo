@@ -21,9 +21,7 @@ public class DatabaseConnexion {
      private DatabaseConnexion(){
          try {
              Class.forName("com.mysql.jdbc.Driver");
-             
             connection =DriverManager.getConnection(url ,username,password);
-             System.out.println("Connexion effective !");
          } catch (Exception e) {
              e.printStackTrace();
          }
