@@ -12,6 +12,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+
 public class DatabaseConnexion {
     public static final String username ="vicsantos";
     public static final String password ="vicsantos";

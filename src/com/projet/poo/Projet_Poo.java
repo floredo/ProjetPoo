@@ -20,15 +20,19 @@ public class Projet_Poo {
      */
     public static void main(String[] args) {
         ArticleDAO dao = new ArticleDAO();
-        System.out.println("Nombre d'articles dans la base:"+dao.getAll().size());
-        Article article = new Article();
-        article.setCode("APPLE");
-        article.setLibelle("Macbook Pro");
-        article.setDateCreation(new Date());
-        article.setQte(10);
-        article.setPrix(100000);
-        dao.saveOne(article);
-        System.out.println("Nombre d'articles dans la base:"+dao.getAll().size());
+        //System.out.println("Nombre d'articles dans la base:"+dao.getAll().size());
+        //Article article = new Article();
+        //article.setCode("APPLE");
+        //article.setLibelle("Macbook Pro");
+        //article.setDateCreation(new Date());
+        //article.setQte(10);
+        //article.setPrix(100000);
+        //dao.saveOne(article);
+        //System.out.println("Nombre d'articles dans la base:"+dao.getAll().size());
+        System.out.println(dao.getOne(2));
+        Article article=dao.getOne(2);
+        dao.vendreArticle(article,9);
+        System.err.println(dao.getOne(2));
         
     }
     
