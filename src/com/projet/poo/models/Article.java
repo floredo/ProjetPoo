@@ -18,6 +18,15 @@ public class Article {
     private double prix;
     private int qte;
     private Date dateCreation;
+    private static int seuil=15;
+
+    public static int getSeuil() {
+        return seuil;
+    }
+
+    public static void setSeuil(int seuil) {
+        Article.seuil = seuil;
+    }
 
     public int getId(){
         return id;
@@ -72,6 +81,11 @@ public class Article {
         this.prix = prix;
         this.qte = qte;
         this.dateCreation = dateCreation;
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" + "id=" + id + ", code=" + code + ", libelle=" + libelle + ", prix=" + prix + ", qte=" + qte + ", dateCreation=" + dateCreation + '}';
     }
     
 }

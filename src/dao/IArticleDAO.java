@@ -14,8 +14,9 @@ import java.util.List;
  */
 public interface IArticleDAO {
     List<Article> getAll();
-    Article getOne(String code);
+    Article getOne(int id);
     void saveOne(Article article);
     void updateOne(Article article);
-    void deleteone(String code);
+    void deleteone(Article article);
+    int afficherNombre();
 }

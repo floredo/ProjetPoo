@@ -50,8 +50,26 @@ public class ArticleDAO implements IArticleDAO{
     }
 
     @Override
-    public Article getOne(String code) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Article getOne(int id) {
+        Article article = new Article();
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM article WHERE id=?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                article.setCode(resultSet.getString("code"));
+                article.setLibelle(resultSet.getString("libelle"));
+                article.setPrix(resultSet.getDouble("prix"));
+                article.setQte(resultSet.getInt("qte"));
+                article.setDateCreation(resultSet.getDate("datecreation"));
+                article.setId(resultSet.getInt("id"));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        }catch(SQLException sQLException){
+            sQLException.printStackTrace();
+        }
+        return article ;
     }
 
     @Override
@@ -72,13 +90,116 @@ public class ArticleDAO implements IArticleDAO{
 
     @Override
     public void updateOne(Article article) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE article set datecreation=?, libelle=?, prix=?,qte=?,code=? WHERE id=?");
+            preparedStatement.setDate(1, new Date(article.getDateCreation().getYear(), article.getDateCreation().getMonth(), article.getDateCreation().getDay()));
+            preparedStatement.setString(2, article.getLibelle());
+            preparedStatement.setDouble(3, article.getPrix());
+            preparedStatement.setInt(4, article.getQte());
+            preparedStatement.setString(5,article.getCode());
+            preparedStatement.setInt(6, article.getId());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override
-    public void deleteone(String code) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteone(Article article) {
+       try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM article  WHERE id=?");
+            preparedStatement.setInt(1, article.getId());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
     }
-    
+    @Override
+    public int afficherNombre(){
+        int nbretotal=0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS totalArticle FROM article");
+            
+             ResultSet afficher =preparedStatement.executeQuery();
+             afficher.next();
+             nbretotal=afficher.getInt(1);
+            preparedStatement.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return nbretotal;
+    }
+    public List<Article> getListe() {
+        List<Article> articles = new ArrayList<>();
+       
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM article WHERE Qte <= 15");
+            while(resultSet.next()){
+                Article article = new Article();
+                article.setCode(resultSet.getString("code"));
+                article.setLibelle(resultSet.getString("libelle"));
+                article.setPrix(resultSet.getDouble("prix"));
+                article.setQte(resultSet.getInt("qte"));
+                article.setDateCreation(resultSet.getDate("datecreation"));
+                article.setId(resultSet.getInt("id"));
+                articles.add(article);
+            }
+            resultSet.close();
+            statement.close();
+        }catch(SQLException sQLException){
+            sQLException.printStackTrace();
+        }
+        
+        return articles;
+    } 
+    public void approvisionner(Article article, int qte) {
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE article set qte=qte+? WHERE id=?");
+            preparedStatement.setInt(1, qte);
+            preparedStatement.setInt(2,article.getId());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+     public void approvisionner(int id, int qte) {
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE article set qte=qte+? WHERE id=?");
+            preparedStatement.setInt(1, qte);
+            preparedStatement.setInt(2,id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+    public void vendreArticle(Article article, int qte) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE article set qte=qte-? WHERE id=?");
+            preparedStatement.setInt(1, qte);
+            preparedStatement.setInt(2,article.getId());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+    public void vendreArticle(int id, int qte) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE article set qte=qte-? WHERE id=?");
+            preparedStatement.setInt(1, qte);
+            preparedStatement.setInt(2,id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
     
 }
