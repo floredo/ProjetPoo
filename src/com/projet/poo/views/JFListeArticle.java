@@ -5,17 +5,32 @@
  */
 package com.projet.poo.views;
 
+import com.projet.poo.models.Article;
+import dao.ArticleDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author vinc
  */
 public class JFListeArticle extends javax.swing.JFrame {
+    
+    private ArticleDAO articledao;
 
     /**
      * Creates new form JFListeArticle
      */
     public JFListeArticle() {
         initComponents();
+        this.articledao = new ArticleDAO();
+        loadArticleTable();
+        
     }
 
     /**
@@ -45,8 +60,11 @@ public class JFListeArticle extends javax.swing.JFrame {
         Supprimer = new javax.swing.JButton();
         Vendre = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         Approvisionner = new javax.swing.JButton();
         Ajouter = new javax.swing.JButton();
+        Seuil = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -79,6 +97,11 @@ public class JFListeArticle extends javax.swing.JFrame {
         jLabel2.setText("Code : ");
 
         Code.setEditable(false);
+        Code.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CodeActionPerformed(evt);
+            }
+        });
 
         Libelle.setEditable(false);
         Libelle.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +141,11 @@ public class JFListeArticle extends javax.swing.JFrame {
 
         Modifier.setText("MODIFIER");
         Modifier.setEnabled(false);
+        Modifier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModifierActionPerformed(evt);
+            }
+        });
 
         Supprimer.setText("SUPPRIMER");
         Supprimer.setEnabled(false);
@@ -135,15 +163,46 @@ public class JFListeArticle extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "CODE", "LIBELLE", "PRIX", "QUANTITE", "DATE CREATION"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+        }
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 673, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(113, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(108, 108, 108))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 528, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(434, Short.MAX_VALUE))
         );
 
         Approvisionner.setText("APPROVISIONNER");
@@ -158,6 +217,14 @@ public class JFListeArticle extends javax.swing.JFrame {
         Ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AjouterActionPerformed(evt);
+            }
+        });
+
+        Seuil.setText("SEUIL");
+        Seuil.setEnabled(false);
+        Seuil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SeuilActionPerformed(evt);
             }
         });
 
@@ -205,11 +272,14 @@ public class JFListeArticle extends javax.swing.JFrame {
                                                 .addGap(18, 18, 18)
                                                 .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                                .addComponent(Approvisionner))))
+                                .addComponent(Approvisionner)))
+                        .addGap(31, 31, 31))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(176, 176, 176)
-                        .addComponent(Ajouter)))
-                .addGap(31, 31, 31)
+                        .addGap(82, 82, 82)
+                        .addComponent(Ajouter)
+                        .addGap(67, 67, 67)
+                        .addComponent(Seuil, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(52, Short.MAX_VALUE))
         );
@@ -247,8 +317,10 @@ public class JFListeArticle extends javax.swing.JFrame {
                             .addComponent(Supprimer)
                             .addComponent(Vendre)
                             .addComponent(Approvisionner))
-                        .addGap(30, 30, 30)
-                        .addComponent(Ajouter)))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Ajouter)
+                            .addComponent(Seuil))))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -331,19 +403,109 @@ public class JFListeArticle extends javax.swing.JFrame {
 
     private void VendreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VendreActionPerformed
         // TODO add your handling code here:
+        Article article = new Article();
+        
+        article.setCode(Code.getText());
+        article.setQte(Integer.parseInt(Quantite.getText()));
+        article.setLibelle(Libelle.getText());
+        article.setPrix(Double.parseDouble(Prix.getText()));
+        try {
+            article.setDateCreation(new SimpleDateFormat("dd/MM/yyyy").parse(Date.getText()));
+        } catch (ParseException ex) {
+            Logger.getLogger(JFadmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        articledao.vendreArticle(article, article.getQte());
     }//GEN-LAST:event_VendreActionPerformed
 
     private void ApprovisionnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ApprovisionnerActionPerformed
         // TODO add your handling code here:
+        Article article = new Article();
+        
+        article.setCode(Code.getText());
+        article.setQte(Integer.parseInt(Quantite.getText()));
+        article.setLibelle(Libelle.getText());
+        article.setPrix(Double.parseDouble(Prix.getText()));
+        try {
+            article.setDateCreation(new SimpleDateFormat("dd/MM/yyyy").parse(Date.getText()));
+        } catch (ParseException ex) {
+            Logger.getLogger(JFadmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        articledao.approvisionner(article, article.getQte());
     }//GEN-LAST:event_ApprovisionnerActionPerformed
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
         // TODO add your handling code here:
+
+        JFadmin Admin = new JFadmin();
+        Admin.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_AjouterActionPerformed
 
     private void SupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerActionPerformed
         // TODO add your handling code here:
+        Article article = new Article();
+        
+        article.setCode(Code.getText());
+        article.setQte(Integer.parseInt(Quantite.getText()));
+        article.setLibelle(Libelle.getText());
+        article.setPrix(Double.parseDouble(Prix.getText()));
+        try {
+            article.setDateCreation(new SimpleDateFormat("dd/MM/yyyy").parse(Date.getText()));
+        } catch (ParseException ex) {
+            Logger.getLogger(JFadmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        articledao.deleteone(article);
     }//GEN-LAST:event_SupprimerActionPerformed
+
+    private void ModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifierActionPerformed
+        // TODO add your handling code here:
+        Article article = new Article();
+        
+        article.setCode(Code.getText());
+        article.setQte(Integer.parseInt(Quantite.getText()));
+        article.setLibelle(Libelle.getText());
+        article.setPrix(Double.parseDouble(Prix.getText()));
+        try {
+            article.setDateCreation(new SimpleDateFormat("dd/MM/yyyy").parse(Date.getText()));
+        } catch (ParseException ex) {
+            Logger.getLogger(JFadmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        articledao.updateOne(article);
+    }//GEN-LAST:event_ModifierActionPerformed
+
+    private void CodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CodeActionPerformed
+
+    private void SeuilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SeuilActionPerformed
+        // TODO add your handling code here:
+        articledao.getListe();
+    }//GEN-LAST:event_SeuilActionPerformed
+    
+    private List<Article> getArticles() {
+        return articledao.getAll();
+    }
+    
+    private void addArticleRow() {
+        
+    }
+    
+    private void loadArticleTable() {
+        DefaultTableModel dtm = new DefaultTableModel(0, 0);
+        String[] columnNames = new String[]{"CODE", "LIBELLE", "PRIX", "QUANTITE", "DATE CREATION"};
+        dtm.setColumnIdentifiers(columnNames);
+        
+        for (Article article : getArticles()) {
+            dtm.addRow(
+                    new Object[]{article.getCode(),
+                        article.getLibelle(),
+                        article.getPrix(),
+                        article.getQte(),
+                        new SimpleDateFormat("dd/MM/yyyy").format(article.getDateCreation())}
+            );
+        }
+        jTable1.setModel(dtm);
+    }
 
     /**
      * @param args the command line arguments
@@ -389,6 +551,7 @@ public class JFListeArticle extends javax.swing.JFrame {
     private javax.swing.JButton Modifier;
     private javax.swing.JTextField Prix;
     private javax.swing.JTextField Quantite;
+    private javax.swing.JButton Seuil;
     private javax.swing.JButton Supprimer;
     private javax.swing.JButton Vendre;
     private javax.swing.JLabel jLabel1;
@@ -403,5 +566,7 @@ public class JFListeArticle extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

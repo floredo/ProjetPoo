@@ -5,16 +5,25 @@
  */
 package com.projet.poo.views;
 
+import com.projet.poo.models.Article;
+import dao.ArticleDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vinc
  */
 public class JFadmin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form JFadmin
-     */
+    private ArticleDAO articledao;
+
     public JFadmin() {
+        this.articledao = new ArticleDAO();
         initComponents();
     }
 
@@ -74,7 +83,7 @@ public class JFadmin extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(89, 89, 89)
                 .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(327, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,9 +157,14 @@ public class JFadmin extends javax.swing.JFrame {
 
         Valider.setBackground(new java.awt.Color(33, 109, 33));
         Valider.setFont(new java.awt.Font("C059", 1, 15)); // NOI18N
-        Valider.setForeground(java.awt.Color.blue);
+        Valider.setForeground(java.awt.Color.white);
         Valider.setText("VALIDER");
         Valider.setOpaque(true);
+        Valider.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ValiderActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -230,13 +244,13 @@ public class JFadmin extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,6 +287,39 @@ public class JFadmin extends javax.swing.JFrame {
     private void DateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DateActionPerformed
+
+    private void ValiderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ValiderActionPerformed
+        // TODO add your handling code here:
+
+        Article article = new Article();
+
+        if (Code.getText() == "") {
+            JOptionPane.showMessageDialog(this, "Vous devez saisir le code");
+        }
+        else if (Libelle.getText() == "") {
+            JOptionPane.showMessageDialog(this, "Vous devez saisir le libellé");
+        }
+        else if (Quantite.getText() == "") {
+            JOptionPane.showMessageDialog(this, "Vous devez saisir le quantité");
+        }
+        else if (Prix.getText() == "") {
+            JOptionPane.showMessageDialog(this, "Vous devez saisir le prix");
+        }
+
+        article.setCode(Code.getText());
+        article.setQte(Integer.parseInt(Quantite.getText()));
+        article.setLibelle(Libelle.getText());
+        article.setPrix(Double.parseDouble(Prix.getText()));
+        try {
+            article.setDateCreation(new SimpleDateFormat("dd/MM/yyyy").parse(Date.getText()));
+        } catch (ParseException ex) {
+            Logger.getLogger(JFadmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        articledao.saveOne(article);
+        JFListeArticle Liste = new JFListeArticle();
+        Liste.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_ValiderActionPerformed
 
     /**
      * @param args the command line arguments

@@ -16,8 +16,8 @@ import java.sql.DriverManager;
 public class DatabaseConnexion {
     public static final String username ="vicsantos";
     public static final String password ="vicsantos";
-     public static final String url ="jdbc:mysql://localhost:3306/gestion_article";
-     private static Connection connection;
+    public static final String url ="jdbc:mysql://localhost:3306/gestion_article";
+    private static Connection connection;
      
      private DatabaseConnexion(){
          try {
