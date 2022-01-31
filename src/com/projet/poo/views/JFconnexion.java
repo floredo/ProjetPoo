@@ -21,9 +21,7 @@ public class JFconnexion extends javax.swing.JFrame {
     /**
      * Creates new form JFconnexion
      */
-    public  String Username1 ,Password1;
-    private Connection connection = DatabaseConnexion.getConnection();
-
+ 
     public JFconnexion() {
         initComponents();
     }
@@ -197,26 +195,7 @@ public class JFconnexion extends javax.swing.JFrame {
 
     private void connecterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connecterActionPerformed
             // TODO add your handling code here:
-            try{
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.querySelectAll("utilisateur" , "username ='" +Username.getText() + "'and password ='" + Password.getPassword() +" '");
-                while (resultSet.next()) {
-                Username1 = resultSet.getString("username");
-                Password1 = resultSet.getString("password");
-                
-                    
-                }
-            }catch(SQLException ex){
-                ex.getMessage();
-                
-            }
-            if (Username1 == null && Password1 == null){
-                    JOptionPane.showMessageDialog(this, "Le nom d'utilisation ou mot de passe incorrect");
-                }else{
-                    JFadmin admin = new JFadmin();
-                    admin.setVisible(true);
-                    this.dispose();
-                }
+           
     }//GEN-LAST:event_connecterActionPerformed
 
     /**
